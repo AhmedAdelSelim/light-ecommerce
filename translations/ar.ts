@@ -1,0 +1,35 @@
+export default {
+  common: {
+    shopName: 'سليم شوب',
+    cart: 'السلة',
+    products: 'المنتجات',
+    home: 'الرئيسية',
+    loading: 'جاري التحميل...',
+    error: 'خطأ',
+    addToCart: 'أضف إلى السلة',
+    checkout: 'الدفع',
+    total: 'المجموع',
+    empty: 'فارغ',
+  },
+  home: {
+    welcome: 'مرحباً بكم في سليم شوب',
+    shopNow: 'تسوق الآن',
+    featuredProducts: 'المنتجات المميزة',
+    viewAll: 'عرض الكل',
+  },
+  products: {
+    allProducts: 'جميع المنتجات',
+    notFound: 'المنتج غير موجود',
+    backToProducts: 'العودة إلى المنتجات',
+    quantity: 'الكمية',
+  },
+  cart: {
+    yourCart: 'سلة التسوق الخاصة بك',
+    emptyCart: 'سلة التسوق فارغة',
+    continueShopping: 'متابعة التسوق',
+    orderSummary: 'ملخص الطلب',
+    items: 'العناصر',
+    shipping: 'الشحن',
+    tax: 'الضريبة',
+  },
+};

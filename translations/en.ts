@@ -1,0 +1,35 @@
+export default {
+  common: {
+    shopName: 'SelimShop',
+    cart: 'Cart',
+    products: 'Products',
+    home: 'Home',
+    loading: 'Loading...',
+    error: 'Error',
+    addToCart: 'Add to Cart',
+    checkout: 'Checkout',
+    total: 'Total',
+    empty: 'Empty',
+  },
+  home: {
+    welcome: 'Welcome to SelimShop',
+    shopNow: 'Shop Now',
+    featuredProducts: 'Featured Products',
+    viewAll: 'View All',
+  },
+  products: {
+    allProducts: 'All Products',
+    notFound: 'Product Not Found',
+    backToProducts: 'Back to Products',
+    quantity: 'Quantity',
+  },
+  cart: {
+    yourCart: 'Your Shopping Cart',
+    emptyCart: 'Your cart is empty',
+    continueShopping: 'Continue Shopping',
+    orderSummary: 'Order Summary',
+    items: 'Items',
+    shipping: 'Shipping',
+    tax: 'Tax',
+  },
+};
