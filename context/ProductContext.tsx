@@ -5,6 +5,10 @@ import { Product, ProductContextType } from "@/types";
 import { fetchProducts } from "@/lib/api";
 import { loadProductsFromStorage, saveProductsToStorage, shouldSyncWithAPI } from "@/lib/storage";
 
+/**
+ * ProductContext provides product management functionality throughout the application.
+ * It handles product fetching, caching, and state management.
+ */
 export const ProductContext = createContext<ProductContextType>({
   products: [],
   loading: false,
@@ -13,6 +17,11 @@ export const ProductContext = createContext<ProductContextType>({
   getProductById: () => undefined,
 });
 
+/**
+ * ProductProvider component that wraps the application to provide product management functionality.
+ * @param {Object} props - Component props
+ * @param {ReactNode} props.children - Child components to be wrapped
+ */
 export function ProductProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

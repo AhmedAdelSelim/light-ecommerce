@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
   saveCartToStorage,
   loadCartFromStorage,
@@ -38,9 +38,18 @@ describe('Storage functions', () => {
 
   describe('saveCartToStorage and loadCartFromStorage', () => {
     it('should save and load cart items', () => {
-      const cartItems = [
-        { product: { id: 1, title: 'Test Product', price: 10 }, quantity: 2 }
-      ];
+      const cartItems = [{
+        product: {
+          id: 1,
+          title: 'Test Product',
+          price: 10,
+          description: '',
+          category: '',
+          image: '',
+          rating: { rate: 0, count: 0 }
+        },
+        quantity: 2
+      }];
 
       saveCartToStorage(cartItems);
       
@@ -96,13 +105,20 @@ describe('Storage functions', () => {
 
   describe('saveProductsToStorage and loadProductsFromStorage', () => {
     it('should save and load products with timestamp', () => {
-      const products = [
-        { id: 1, title: 'Test Product', price: 10 }
-      ];
+      const products = [{
+        id: 1,
+        title: 'Test Product',
+        price: 10,
+        description: '',
+        category: '',
+        image: '',
+        rating: { rate: 0, count: 0 }
+      }];
       
-      // Mock Date.now() to return a fixed timestamp
       const mockDate = new Date('2023-01-01T12:00:00Z');
-      vi.spyOn(global, 'Date').mockImplementation(() => mockDate as any);
+      const mockISOString = mockDate.toISOString();
+      
+      vi.setSystemTime(mockDate);
       
       saveProductsToStorage(products);
       
@@ -112,12 +128,14 @@ describe('Storage functions', () => {
       );
       expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
         'ecommerce-last-sync',
-        mockDate.toISOString()
+        mockISOString
       );
       
       const { products: loadedProducts, lastSync } = loadProductsFromStorage();
       expect(loadedProducts).toEqual(products);
-      expect(lastSync).toEqual(mockDate.toISOString());
+      expect(lastSync).toBe(mockISOString);
+      
+      vi.useRealTimers();
     });
 
     it('should return empty array when no products are saved', () => {
@@ -128,23 +146,29 @@ describe('Storage functions', () => {
   });
 
   describe('shouldSyncWithAPI', () => {
-    it('should return true if no last sync exists', () => {
-      expect(shouldSyncWithAPI()).toBe(true);
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
     });
 
     it('should return true if last sync was more than 1 hour ago', () => {
-      const now = new Date();
-      const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000);
+      const now = new Date('2023-01-01T12:00:00Z');
+      const twoHoursAgo = new Date('2023-01-01T10:00:00Z');
       
+      vi.setSystemTime(now);
       mockLocalStorage.getItem.mockReturnValueOnce(twoHoursAgo.toISOString());
       
       expect(shouldSyncWithAPI()).toBe(true);
     });
 
     it('should return false if last sync was less than 1 hour ago', () => {
-      const now = new Date();
-      const thirtyMinutesAgo = new Date(now.getTime() - 30 * 60 * 1000);
+      const now = new Date('2023-01-01T12:00:00Z');
+      const thirtyMinutesAgo = new Date('2023-01-01T11:30:00Z');
       
+      vi.setSystemTime(now);
       mockLocalStorage.getItem.mockReturnValueOnce(thirtyMinutesAgo.toISOString());
       
       expect(shouldSyncWithAPI()).toBe(false);

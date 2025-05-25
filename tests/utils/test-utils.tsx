@@ -1,19 +1,20 @@
 import { ReactElement } from 'react'
 import { render } from '@testing-library/react'
+import { CartProvider } from '@/context/CartContext'
 
 type DefaultParams = Parameters<typeof render>
 type RenderUI = DefaultParams[0]
-type RenderOptions = DefaultParams[1] & { locale?: string }
+type RenderOptions = DefaultParams[1]
 
-export function renderWithi18n(
+export function renderWithProviders(
   ui: RenderUI,
-  { locale = 'en', ...renderOptions }: RenderOptions = {}
+  renderOptions: RenderOptions = {}
 ) {
   function Wrapper({ children }: { children: ReactElement }) {
     return (
-      <div lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+      <CartProvider>
         {children}
-      </div>
+      </CartProvider>
     )
   }
 
